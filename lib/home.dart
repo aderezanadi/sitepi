@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:sitepi/login.dart';
@@ -19,26 +19,55 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _tripModalButtomSheet(context){
-    showModalBottomSheet(context: context, builder: (BuildContext bc){
-      return Container(
-        height: MediaQuery.of(context).size.height * .30,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text('data', style: TextStyle(fontSize: 30, color: Colors.red),)
-        ),
-      );
-    });
-  }
-
-  void getDatabase(){
-    
+  getMarker(){
+    try {
+      List<Marker> marker = [];
+      FirebaseDatabase.instance.reference().once().then((DataSnapshot snapshot){
+        Map<dynamic, dynamic> values = snapshot.value;
+        values.forEach((key,values) {
+          marker.add(
+            new Marker(
+              width: 45.0,
+              height: 45.0,
+              point: new LatLng(values['lokasi']['lat'],values['lokasi']['lang']),/* (-8.7004,115.2207)(-8.6582,115.2081) */
+              builder: (ctx) =>
+              new Container(
+                child: IconButton(
+                  icon: Icon(Icons.location_on),
+                  color: Colors.red,
+                  iconSize: 45.0,
+                  onPressed: (){
+                    showModalBottomSheet(context: context, builder: (BuildContext bc){
+                      return Container(
+                        height: MediaQuery.of(context).size.height * .30,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(values['lokasi']['alamat'], style: TextStyle(fontSize: 25, color: Colors.blue),)
+                            ),
+                          ]
+                        ),
+                        
+                      );
+                    });
+                  }),
+              ),
+            )
+          );
+        });
+      });
+      return new MarkerLayerOptions(
+        markers: marker
+      );    
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getDatabase();
   }
 
   @override
@@ -69,25 +98,7 @@ class _HomeState extends State<Home> {
               'id': 'mapbox.mapbox-streets-v7',
             },
           ),
-          new MarkerLayerOptions(
-            markers: [
-              new Marker(
-                width: 45.0,
-                height: 45.0,
-                point: new LatLng(-8.7004,115.2207),
-                builder: (ctx) =>
-                new Container(
-                  child: IconButton(
-                    icon: Icon(Icons.location_on),
-                    color: Colors.red,
-                    iconSize: 45.0,
-                    onPressed: (){
-                      _tripModalButtomSheet(context);
-                    }),
-                ),
-              ),
-            ],
-          ),
+          getMarker()
         ],
       ),
     );
