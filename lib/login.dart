@@ -61,7 +61,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.green,
       body: Center(
         child: new Form(
           key: _formKey,
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                   hintText: 'Email',
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0)),
+                      borderRadius: BorderRadius.circular(15.0)),
                 ),
               ),
               SizedBox(height: 8.0),
@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
                   hintText: 'Password',
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0)),
+                      borderRadius: BorderRadius.circular(15.0)),
                 ),
               ),
               SizedBox(height: 4.0),
