@@ -1,52 +1,22 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:sitepi/trash.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-class TrashAdd extends StatefulWidget {
+class User extends StatefulWidget {
   @override
-  _TrashAddState createState() => _TrashAddState();
+  _UserState createState() => _UserState();
 }
 
-class _TrashAddState extends State<TrashAdd> {
+class _UserState extends State<User> {
   final _formKey = new GlobalKey<FormState>();
 
-  final alamat = TextEditingController();
-  final lang = TextEditingController();
-  final lat = TextEditingController();
-
-  void save(){
-    try{
-      FirebaseDatabase.instance.reference().push().set({
-        'atas':0,
-        'kiri':0,
-        'kanan':0,
-        'lokasi':{
-          'alamat': alamat.text,
-          'lang':num.parse(lang.text),
-          'lat':num.parse(lat.text)
-        }
-      }).then((_) {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Successfully Added')));
-        Navigator.of(context).pop(
-          MaterialPageRoute(builder: (_) {
-            return Trash();
-          }),
-        );
-      }).catchError((onError) {
-          print(onError);
-      });
-    }catch(e){
-      print(e.message);
-    }
-  }
+  final email = TextEditingController();
+  final password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.green,
-        title: Text("Add"),
+        title: Text("User"),
       ),
       body: Container(
         child: new Form(
@@ -56,14 +26,15 @@ class _TrashAddState extends State<TrashAdd> {
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
             children: <Widget>[
               SizedBox(height: 20.0),
-              //Alamat
+              //Email
               TextFormField(
-                controller: alamat,
+                controller: email,
+                keyboardType: TextInputType.emailAddress,
                 autofocus: false,
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
-                  hintText: 'Alamat',
+                  hintText: 'Email',
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0)),
@@ -71,31 +42,15 @@ class _TrashAddState extends State<TrashAdd> {
               ),
               SizedBox(height: 8.0),
 
-              //Langitude
+              //Password
               TextFormField(
-                controller: lang,
-                keyboardType: TextInputType.number,
+                controller: password,
                 autofocus: false,
+                obscureText: true,
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
-                  hintText: 'Langitude',
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0)),
-                ),
-              ),
-              SizedBox(height: 8.0),
-
-                //Latitude
-              TextFormField(
-                controller: lat,
-                keyboardType: TextInputType.number,
-                autofocus: false,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  hintText: 'Latitude',
+                  hintText: 'Password',
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0)),
@@ -114,7 +69,7 @@ class _TrashAddState extends State<TrashAdd> {
                     style: TextStyle(fontSize: 15.0),
                   ),
                   onPressed: () {
-                    save();
+                    // save();
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(15.0),
@@ -128,4 +83,3 @@ class _TrashAddState extends State<TrashAdd> {
     );
   }
 }
-  

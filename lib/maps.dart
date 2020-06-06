@@ -24,7 +24,7 @@ class _MapsState extends State<Maps> {
               new Container(
                 child: IconButton(
                   icon: Icon(Icons.location_on),
-                  color: Colors.red,
+                  color: Colors.green,
                   iconSize: 45.0,
                   onPressed: (){
                     showModalBottomSheet(context: context, builder: (BuildContext bc){

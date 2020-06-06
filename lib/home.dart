@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sitepi/login.dart';
 import 'package:sitepi/maps.dart';
 import 'package:sitepi/trash.dart';
+import 'package:sitepi/user.dart';
 
 
 class Home extends StatefulWidget {
@@ -88,7 +89,11 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) {
+                      return User();
+                    }),
+                  );
                 },
                 splashColor: Colors.green,
                 child: Center(
