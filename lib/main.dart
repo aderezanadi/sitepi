@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Sitepi',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.green,
       ),
       home: Splashscreen(),
     );

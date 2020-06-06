@@ -1,4 +1,7 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class User extends StatefulWidget {
   @override
@@ -8,8 +11,55 @@ class User extends StatefulWidget {
 class _UserState extends State<User> {
   final _formKey = new GlobalKey<FormState>();
 
-  final email = TextEditingController();
-  final password = TextEditingController();
+  var email = TextEditingController();
+  var password = TextEditingController();
+
+  Future<void> getEmail() async {
+    FirebaseAuth.instance
+    .currentUser()
+    .then((currentUser) => {
+          setState(() {
+            email = new TextEditingController(text: currentUser.email);
+          })
+    })
+    .catchError((err) => print(err));
+  }
+
+  Future<void> save() async {
+    try{
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      user.updatePassword(password.text).then((_){
+        Fluttertoast.showToast(
+          msg: "Password Update!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 3,
+          backgroundColor: Colors.grey[400],
+          textColor: Colors.white,
+          fontSize: 16.0
+        );
+        password.clear();
+      }).catchError((error){
+        Fluttertoast.showToast(
+          msg: "Password can't be changed!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 3,
+          backgroundColor: Colors.grey[400],
+          textColor: Colors.white,
+          fontSize: 16.0
+        );
+      });
+    }catch(e){
+      print(e.message);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getEmail();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +119,7 @@ class _UserState extends State<User> {
                     style: TextStyle(fontSize: 15.0),
                   ),
                   onPressed: () {
-                    // save();
+                    save();
                   },
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(15.0),

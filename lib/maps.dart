@@ -36,11 +36,24 @@ class _MapsState extends State<Maps> {
                               padding: const EdgeInsets.all(8.0),
                               child: Text(values['lokasi']['alamat'], style: TextStyle(fontSize: 25, color: Colors.blue),)
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Isi sampah : " + values['atas'], style: TextStyle(fontSize: 20, color: Colors.black),)
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Kiri : " + values['kiri'], style: TextStyle(fontSize: 20, color: Colors.black),)
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text("Kanan : " + values['kanan'], style: TextStyle(fontSize: 20, color: Colors.black),)
+                            ),
                           ]
                         ),
                       );
                     });
-                  }),
+                  }
+                ),
               ),
             )
           );

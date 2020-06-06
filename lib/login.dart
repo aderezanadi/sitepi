@@ -47,7 +47,8 @@ class _LoginState extends State<Login> {
             backgroundColor: Colors.grey[400],
             textColor: Colors.white,
             fontSize: 16.0
-          )
+          ),
+          password.clear()
       }else{
           setState(() {
             isLoading = false;
