@@ -14,29 +14,47 @@ class _TrashAddState extends State<TrashAdd> {
   final alamat = TextEditingController();
   final lang = TextEditingController();
   final lat = TextEditingController();
+  bool isLoading = false;
 
   void save(){
+    setState(() {
+        isLoading = true;
+      });
     try{
       FirebaseDatabase.instance.reference().push().set({
-        'atas':0,
-        'kiri':0,
-        'kanan':0,
+        'atas':'kosong',
+        'kiri':'kosong',
+        'kanan':'kosong',
         'lokasi':{
           'alamat': alamat.text,
           'lang':num.parse(lang.text),
           'lat':num.parse(lat.text)
         }
       }).then((_) {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Successfully Added')));
+        Fluttertoast.showToast(
+          msg: "Lokasi ditambahkan!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 3,
+          backgroundColor: Colors.grey[400],
+          textColor: Colors.white,
+          fontSize: 16.0
+        );
         Navigator.of(context).pop(
           MaterialPageRoute(builder: (_) {
             return Trash();
           }),
         );
       }).catchError((onError) {
-          print(onError);
+        setState(() {
+          isLoading = false;
+        });
+        print(onError);
       });
     }catch(e){
+      setState(() {
+        isLoading = false;
+      });
       print(e.message);
     }
   }
@@ -106,20 +124,26 @@ class _TrashAddState extends State<TrashAdd> {
               //saveButton
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: RaisedButton(
-                  textColor: Colors.white,
-                  color: Colors.green,
-                  child: Text(
-                    "Save",
-                    style: TextStyle(fontSize: 15.0),
-                  ),
-                  onPressed: () {
-                    save();
-                  },
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(15.0),
-                  ),
-                ),
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white
+                        ),
+                      )
+                    : RaisedButton(
+                        textColor: Colors.white,
+                        color: Colors.green,
+                        child: Text(
+                          "Save",
+                          style: TextStyle(fontSize: 15.0),
+                        ),
+                        onPressed: () {
+                          save();
+                        },
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(15.0),
+                        ),
+                      ),
               ),
             ],
           ),
