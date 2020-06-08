@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sitepi/login.dart';
 import 'package:sitepi/maps.dart';
-import 'package:sitepi/trash.dart';
-import 'package:sitepi/user.dart';
+import 'package:sitepi/lokasi.dart';
+import 'package:sitepi/admin.dart';
 
 
 class Home extends StatefulWidget {
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(Icons.map, size: 70,),
+                      Icon(Icons.map, size: 60,),
                       Text( "Maps", style: new TextStyle(fontSize:17.0),)
                     ],
                   ),
@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
                 onTap: (){
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) {
-                      return Trash();
+                      return Lokasi();
                     }),
                   );
                 },
@@ -78,8 +78,8 @@ class _HomeState extends State<Home> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(Icons.delete, size: 70,),
-                      Text( "Trash", style: new TextStyle(fontSize:17.0),)
+                      Icon(Icons.location_on, size: 60,),
+                      Text( "Lokasi", style: new TextStyle(fontSize:17.0),)
                     ],
                   ),
                 ),
@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
                 onTap: (){
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) {
-                      return User();
+                      return Admin();
                     }),
                   );
                 },
@@ -100,8 +100,8 @@ class _HomeState extends State<Home> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(Icons.person, size: 70,),
-                      Text( "User", style: new TextStyle(fontSize:17.0),)
+                      Icon(Icons.person, size: 60,),
+                      Text( "Admin", style: new TextStyle(fontSize:17.0),)
                     ],
                   ),
                 ),

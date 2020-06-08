@@ -1,14 +1,13 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class User extends StatefulWidget {
+class Admin extends StatefulWidget {
   @override
-  _UserState createState() => _UserState();
+  _AdminState createState() => _AdminState();
 }
 
-class _UserState extends State<User> {
+class _AdminState extends State<Admin> {
   final _formKey = new GlobalKey<FormState>();
 
   var email = TextEditingController();

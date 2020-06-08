@@ -1,13 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:sitepi/trash_add.dart';
+import 'package:sitepi/lokasi_add.dart';
 
-class Trash extends StatefulWidget {
+class Lokasi extends StatefulWidget {
   @override
-  _TrashState createState() => _TrashState();
+  _LokasiState createState() => _LokasiState();
 }
 
-class _TrashState extends State<Trash> {
+class _LokasiState extends State<Lokasi> {
   final dbRef = FirebaseDatabase.instance.reference();
 
   @override
@@ -20,7 +20,7 @@ class _TrashState extends State<Trash> {
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.green,
-        title: Text("Trash"),
+        title: Text("Lokasi"),
       ),
       body: Container(
         
@@ -29,7 +29,7 @@ class _TrashState extends State<Trash> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) {
-              return TrashAdd();
+              return LokasiAdd();
             }),
           );
         },

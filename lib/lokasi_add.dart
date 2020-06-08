@@ -1,14 +1,14 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:sitepi/trash.dart';
+import 'package:sitepi/lokasi.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class TrashAdd extends StatefulWidget {
+class LokasiAdd extends StatefulWidget {
   @override
-  _TrashAddState createState() => _TrashAddState();
+  _LokasiAddState createState() => _LokasiAddState();
 }
 
-class _TrashAddState extends State<TrashAdd> {
+class _LokasiAddState extends State<LokasiAdd> {
   final _formKey = new GlobalKey<FormState>();
 
   final alamat = TextEditingController();
@@ -42,7 +42,7 @@ class _TrashAddState extends State<TrashAdd> {
         );
         Navigator.of(context).pop(
           MaterialPageRoute(builder: (_) {
-            return Trash();
+            return Lokasi();
           }),
         );
       }).catchError((onError) {
