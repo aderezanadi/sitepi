@@ -1,0 +1,166 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sitepi/lokasi.dart';
+
+class LokasiEdit extends StatefulWidget {
+  final String id;
+  LokasiEdit({@required this.id});
+  @override
+  _LokasiEditState createState() => _LokasiEditState();
+}
+
+class _LokasiEditState extends State<LokasiEdit> {
+  final dbRef = FirebaseDatabase.instance.reference();
+  final _formKey = new GlobalKey<FormState>();
+
+  var alamat = TextEditingController();
+  var lang = TextEditingController();
+  var lat = TextEditingController();
+  bool isLoading = false;
+
+  void save(){
+    setState(() {
+        isLoading = true;
+      });
+    try{
+      FirebaseDatabase.instance.reference().child(widget.id).update({
+        'lokasi':{
+          'alamat': alamat.text,
+          'lang':num.parse(lang.text),
+          'lat':num.parse(lat.text)
+        }
+      }).then((_) {
+        Fluttertoast.showToast(
+          msg: "Lokasi dirubah!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 3,
+          backgroundColor: Colors.grey[400],
+          textColor: Colors.white,
+          fontSize: 16.0
+        );
+        Navigator.of(context).pop(
+          MaterialPageRoute(builder: (_) {
+            return Lokasi();
+          }),
+        );
+      }).catchError((onError) {
+        setState(() {
+          isLoading = false;
+        });
+        print(onError);
+      });
+    }catch(e){
+      setState(() {
+        isLoading = false;
+      });
+      print(e.message);
+    }
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text("Edit Lokasi"),
+      ),
+      body: Container(
+        child: StreamBuilder(
+          stream: dbRef.child(widget.id).onValue,
+          builder: (context, snap){
+            if (snap.hasData && !snap.hasError && snap.data.snapshot.value != null) {
+              var data = snap.data.snapshot.value;
+              alamat = TextEditingController(text: data['lokasi']['alamat'].toString());
+              lang = TextEditingController(text: data['lokasi']['lang'].toString());
+              lat = TextEditingController(text: data['lokasi']['lat'].toString());
+              return Form(
+                key: _formKey,
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                  children: <Widget>[
+                    SizedBox(height: 20.0),
+                    //Alamat
+                    TextFormField(
+                      controller: alamat,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Alamat',
+                        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+
+                    //Langitude
+                    TextFormField(
+                      controller: lang,
+                      keyboardType: TextInputType.number,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Langitude',
+                        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+
+                      //Latitude
+                    TextFormField(
+                      controller: lat,
+                      keyboardType: TextInputType.number,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Latitude',
+                        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+
+                    //saveButton
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      child: isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.white
+                              ),
+                            )
+                          : RaisedButton(
+                              textColor: Colors.white,
+                              color: Colors.green,
+                              child: Text(
+                                "Save",
+                                style: TextStyle(fontSize: 15.0),
+                              ),
+                              onPressed: () {
+                                save();
+                              },
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return Center(child: Text("Data not Found"));
+          }
+        ),
+      ),
+    );
+  }
+}

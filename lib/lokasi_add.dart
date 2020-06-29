@@ -64,7 +64,7 @@ class _LokasiAddState extends State<LokasiAdd> {
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.green,
-        title: Text("Add"),
+        title: Text("Tambah Lokasi"),
       ),
       body: Container(
         child: new Form(

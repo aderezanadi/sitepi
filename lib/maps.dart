@@ -38,7 +38,7 @@ class _MapsState extends State<Maps> {
                     child: IconButton(
                       icon: Icon(Icons.location_on),
                       color: Colors.green,
-                      iconSize: 35.0,
+                      iconSize: 30.0,
                       onPressed: (){
                         showModalBottomSheet(context: context, builder: (BuildContext bc){
                           return Container(
